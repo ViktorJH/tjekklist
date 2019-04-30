@@ -5,7 +5,8 @@ Demo: https://tjekklist.firebaseapp.com
 To-do list notes app based on Facebook React + Google Firebase. Log in with Google, Facebook, Github.
 
 # Firestore rules
-`service cloud.firestore {
+```
+service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{userId=**} {
       allow read, update, delete, create: if request.auth.uid == userId;
@@ -14,4 +15,5 @@ To-do list notes app based on Facebook React + Google Firebase. Log in with Goog
       allow read, update, delete, create: if request.auth.uid == userId;
 		}
   }
-}`
+}
+```
