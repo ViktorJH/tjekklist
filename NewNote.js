@@ -5,9 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
 import AddIcon from '@material-ui/icons/Add';
 
 const styles = {
@@ -15,7 +12,6 @@ const styles = {
     padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
-    width: 800,
     maxWidth: '100%'
   },
   input: {
@@ -40,27 +36,34 @@ class NewNote extends Component {
     this.state = {
       value: ''
     };
-
-    const { classes } = this.props;
   }
 
 
 
-handleChange = (event) => {
-  this.setState({ value: event.target.value });
-}
+  handleChange = (event) => {
+    this.setState({ value: event.target.value });
+  }
+
+  handleSubmit = (event) => {
+    const value = this.state.value;
+    this.setState({ value: '' });
+    this.props.createNote(value);
+    event.preventDefault();
+  }
 
   render() {
-    const { classes } = this.props;
+  const { classes } = this.props;
 
   return (
-    <Paper className={classes.root} elevation={1}>
-      <InputBase className={classes.input} onChange={this.handleChange}  placeholder="Add a new note" />
-      <Divider className={classes.divider} />
-      <IconButton color="primary" className={classes.iconButton} aria-label="Directions">
-        <AddIcon />
-      </IconButton>
-    </Paper>
+    <form onSubmit={this.handleSubmit}>
+      <Paper className={classes.root} elevation={1}>
+        <InputBase className={classes.input} value={this.state.value} onChange={this.handleChange}  placeholder="Add a new note" />
+        <Divider className={classes.divider} />
+        <IconButton  type="submit" color="primary" className={classes.iconButton} aria-label="Directions">
+          <AddIcon />
+        </IconButton>
+      </Paper>
+    </form>
   );
 }
 

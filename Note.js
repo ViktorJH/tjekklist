@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -13,11 +12,14 @@ class Note extends Component {
         <ListItemText
           primary={this.props.object.body}
         />
+        {this.props.deleteNote ?  
         <ListItemSecondaryAction>
-          <IconButton aria-label="Delete"  onClick={this.props.deleteNote}>
+          <IconButton aria-label="Delete" onClick={this.props.deleteNote}>
             <DeleteIcon />
           </IconButton>
         </ListItemSecondaryAction>
+        : null}
+
       </ListItem>
     );
   }

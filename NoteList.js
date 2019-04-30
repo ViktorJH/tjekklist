@@ -3,6 +3,7 @@ import Note from './Note';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 
+import Paper from '@material-ui/core/Paper';
 
 class NoteList extends Component {
   constructor() {
@@ -44,16 +45,19 @@ class NoteList extends Component {
   }
 
   deleteNote = (id) => {
-    const db = this.props.firestore;
-    const docRef = db.collection("users")
-      .doc(this.props.uid)
-      .collection("notes").doc(id);
+    const r = window.confirm("Are you sure you want to delete this item?"); 
+    if(r == true){
+      const db = this.props.firestore;
+      const docRef = db.collection("users")
+        .doc(this.props.uid)
+        .collection("notes").doc(id);
 
-    docRef.delete().then(function() {
-      // console.log("Document successfully deleted!");
-    }).catch(function(error) {
-      console.error("Error removing document: ", error);
-    });
+      docRef.delete().then(function() {
+        // console.log("Document successfully deleted!");
+      }).catch(function(error) {
+        console.error("Error removing document: ", error);
+      });
+    }
   }
 
   render() {
@@ -66,16 +70,17 @@ class NoteList extends Component {
         <Divider />
     </React.Fragment>
     );
+    
+    if(this.state.notes.length < 1){
+      noteElements = <Note object={{body: 'No notes...'}}  deleteNote={null}  />
+    }
 
     return (
-      <div>
-        {this.state.notes 
-        ? <List>
-            {noteElements}
-          </List>
-        : <div>No notes...</div> 
-        }
-      </div>
+      <Paper>
+        <List disablePadding>
+         {noteElements}
+        </List>
+      </Paper>
     );
   }
 }
