@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+
 import firebase from 'firebase/app'
 import 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import * as firebaseui from 'firebaseui'
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -42,6 +45,7 @@ class App extends Component {
     signInFlow: 'popup',
     // We will display Google and Facebook as auth providers.
     signInOptions: [
+      firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.GithubAuthProvider.PROVIDER_ID,
       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
@@ -130,7 +134,7 @@ class App extends Component {
           </main>
           : 
           // Signed out
-          <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
+          <StyledFirebaseAuth uiCallback={ui => ui.disableAutoSignIn()} uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
           }
         </div>
       </React.Fragment>

@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import Note from './Note';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-
 import Paper from '@material-ui/core/Paper';
+import { CSSTransition, TransitionGroup, } from 'react-transition-group';
+
+import './style.css';
 
 class NoteList extends Component {
   constructor() {
@@ -62,23 +64,32 @@ class NoteList extends Component {
 
   render() {
     const noteElements = this.state.notes.map((ele, index) =>
-    <React.Fragment key={index}>
+    <CSSTransition key={index} timeout={200} classNames="item" >
+      <React.Fragment>
         <Note 
           object={ele} 
           deleteNote={() => this.deleteNote(ele.id)} 
-           />
+          />
         <Divider />
-    </React.Fragment>
+      </React.Fragment>
+    </CSSTransition>
     );
     
     if(this.state.notes.length < 1){
-      noteElements = <Note object={{body: 'No notes...'}}  deleteNote={null}  />
+      noteElements = 
+      <CSSTransition key={1} timeout={200} classNames="item" >
+      <React.Fragment>
+        <Note object={{body: 'No notes...'}}  deleteNote={null}  />
+      </React.Fragment>
+    </CSSTransition>
     }
 
     return (
       <Paper>
         <List disablePadding>
-         {noteElements}
+          <TransitionGroup>
+            {noteElements}
+         </TransitionGroup>
         </List>
       </Paper>
     );
